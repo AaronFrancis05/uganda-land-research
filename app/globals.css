@@ -1,0 +1,125 @@
+@import "tailwindcss";
+
+/* ── Theme tokens ──────────────────────────────────────────────────────────
+   The cadastral / deed-plan palette, carried over verbatim from the original
+   styles.css custom properties. `paper` is the old --white (#FCFBF7) — named
+   apart so it doesn't shadow Tailwind's own white. `selected` is the tint used
+   on a chosen option or scale step. */
+@theme {
+  --color-sheet: #f7f6f1;
+  --color-sheet-2: #efede4;
+  --color-green: #1f3d2b;
+  --color-green-2: #2e5540;
+  --color-laterite: #9c4a2e;
+  --color-ink: #1a1a17;
+  --color-ink-2: #4a473e;
+  --color-rule: #d3d0c4;
+  --color-rule-2: #beb9a8;
+  --color-paper: #fcfbf7;
+  --color-selected: #f2f5f0;
+
+  --color-native: #9c4a2e;
+  --color-surveyor: #1f3d2b;
+  --color-realtor: #a87c2c;
+  --color-official: #3a5a6b;
+
+  /* next/font supplies --font-spectral / --font-archivo on <html>. */
+  --font-serif: var(--font-spectral), Georgia, serif;
+  --font-sans: var(--font-archivo), system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-sheet);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+    min-height: 100vh;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  a {
+    color: var(--color-green);
+    text-decoration: none;
+  }
+
+  /* The masthead, page content and colophon all sit above the grid plate. */
+  body > * {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+@layer components {
+  /* Fixed cadastral grid plate behind everything, fading out down the page. */
+  .grid-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.5;
+    background-image: linear-gradient(var(--color-rule) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-rule) 1px, transparent 1px);
+    background-size: 34px 34px;
+    mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.35), transparent 60%);
+    -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.35), transparent 60%);
+  }
+
+  /* Rubber-stamp mark on the confirmation sheet; colour is set per track. */
+  .stamp {
+    display: inline-block;
+    border: 2px solid currentColor;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    padding: 5px 12px;
+    transform: rotate(-3deg);
+    margin: 0 0 22px;
+  }
+
+  /* Completion meter under the questionnaire header. */
+  .meter-fill {
+    display: block;
+    height: 4px;
+    background: var(--color-laterite);
+    transition: width 0.25s ease;
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Native control accents and focus rings, matched to the palette. */
+  .opt-input {
+    accent-color: var(--color-green);
+  }
+
+  .field-focus:focus-visible,
+  textarea.field-focus:focus {
+    outline: 2px solid var(--color-official);
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    scroll-behavior: auto;
+  }
+}
